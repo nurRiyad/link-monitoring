@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "ENV_NODE=staging nodemon index.js",
+    "production": "ENV_NODE=production nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
