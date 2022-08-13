@@ -11,6 +11,7 @@
   "rules": {
     "no-console": "off",
     "no-unused-vars": "warn",
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
+    "no-param-reassign": "off"
   }
 }
