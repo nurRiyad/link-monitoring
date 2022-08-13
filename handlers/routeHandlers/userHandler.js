@@ -6,14 +6,16 @@ const {
 } = require("../../lib/data");
 const { hasing, parseJSON } = require("../../helper/utility");
 
+// app scaffolding
 const handler = {};
 
+// Only allow the selected request to pass with /user route
 handler.userHandler = (reqProperty, callback) => {
   const valideReqType = ["get", "put", "post", "delete"];
   if (valideReqType.includes(reqProperty.reqMethod)) {
     handler.user[reqProperty.reqMethod](reqProperty, callback);
   } else {
-    callback(400, "Request Type is not valid");
+    callback(400, { Error: "This type of request not allowed" });
   }
 };
 
@@ -24,15 +26,15 @@ handler.user.get = (reqProperty, callback) => {
   let { phone } = reqProperty.reqQuery;
   phone = typeof phone === "string" && phone.length === 11 ? phone : false;
   if (phone) {
-    fileRead("users", phone, (err1, data) => {
-      if (!err1 && data) {
-        const dataObj = parseJSON(data);
+    fileRead("users", phone, (err1, data1) => {
+      if (!err1 && data1) {
+        const dataObj = parseJSON(data1);
         if (dataObj.password) delete dataObj.password;
         callback(200, dataObj);
-      } else callback(404, { error: "Internal server error" });
+      } else callback(404, { Error: "Internal server error" });
     });
   } else {
-    callback(400, { error: "Internal server errors" });
+    callback(400, { Error: "Internal server errors" });
   }
 };
 
@@ -69,7 +71,7 @@ handler.user.post = (reqProperty, callback) => {
     fileRead("users", phone, (err1) => {
       if (err1) {
         fileCreate("users", phone, body, (err2) => {
-          if (err2) callback(500, "Internal Server Error");
+          if (err2) callback(500, { Error: "Internal Server Error" });
           else
             callback(200, {
               firstName: body.firstName,
@@ -79,11 +81,11 @@ handler.user.post = (reqProperty, callback) => {
             });
         });
       } else {
-        callback(500, "Error From server side already user exist");
+        callback(500, { Error: "Error From server side already user exist" });
       }
     });
   } else {
-    callback(400, { error: "Please enter proper body for the request" });
+    callback(400, { Error: "Please enter proper body for the request" });
   }
 };
 
@@ -134,11 +136,11 @@ handler.user.put = (reqProperty, callback) => {
               phone,
             });
           } else {
-            callback(404, { error: "Internal server error" });
+            callback(404, { Error: "Internal server error" });
           }
         });
       } else {
-        callback(400, { error: "Internal server error" });
+        callback(400, { Error: "Internal server error" });
       }
     });
   }
@@ -152,12 +154,12 @@ handler.user.delete = (reqProperty, callback) => {
     fileRead("users", phone, (err1, data1) => {
       if (!err1 && data1) {
         fileDelete("users", phone, (err2) => {
-          if (err2) callback(400, { error: "Internal server error" });
+          if (err2) callback(400, { Error: "Internal server error" });
           else callback(200, { result: "seccessfully delete the file" });
         });
       }
     });
-  } else callback(400, { error: "Internal error on server" });
+  } else callback(400, { Error: "Internal error on server" });
 };
 
 module.exports = handler;
