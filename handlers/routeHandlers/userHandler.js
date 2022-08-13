@@ -151,15 +151,17 @@ handler.user.delete = (reqProperty, callback) => {
   let { phone } = reqProperty.reqQuery;
   phone = typeof phone === "string" && phone.length === 11 ? phone : false;
   if (phone) {
-    fileRead("users", phone, (err1, data1) => {
+    fileDelete("users", phone, (err1, data1) => {
       if (!err1 && data1) {
         fileDelete("users", phone, (err2) => {
           if (err2) callback(400, { Error: "Internal server error" });
           else callback(200, { result: "seccessfully delete the file" });
         });
-      }
+      } else callback(400, { Error: "Internal server error" });
     });
-  } else callback(400, { Error: "Internal error on server" });
+  } else {
+    callback(400, { Error: "Internal error on server" });
+  }
 };
 
 module.exports = handler;
