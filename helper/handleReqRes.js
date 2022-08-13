@@ -16,33 +16,31 @@ app.reqResHandler = (req, res) => {
   const reqQuery = urlObject.query;
   const reqMethod = req.method.toLowerCase();
   const reqHeader = req.headers;
-
-  const reqProperty = { routeName, reqQuery, reqMethod, reqHeader };
+  let reqBody = "";
 
   const selectedHandler = routes[routeName]
     ? routes[routeName]
     : notFoundHandler;
 
-  selectedHandler(reqProperty, (statusCode, payload) => {
-    if (typeof statusCode !== "number") statusCode = 500;
-    if (typeof payload !== "object") payload = {};
-
-    const payloadStr = JSON.stringify(payload);
-
-    res.writeHead(statusCode);
-    res.end(payloadStr);
-  });
-
-  let payload = "";
   const decoder = new StringDecoder("utf-8");
-
   req.on("data", (buffer) => {
-    payload += decoder.write(buffer);
+    reqBody += decoder.write(buffer);
   });
 
   req.on("end", () => {
-    payload += decoder.end();
-    console.log(payload);
+    reqBody += decoder.end();
+
+    const reqProperty = { routeName, reqQuery, reqMethod, reqHeader, reqBody };
+
+    selectedHandler(reqProperty, (statusCode, payload) => {
+      if (typeof statusCode !== "number") statusCode = 500;
+      if (typeof payload !== "object") payload = {};
+
+      const payloadStr = JSON.stringify(payload);
+
+      res.writeHead(statusCode);
+      res.end(payloadStr);
+    });
   });
 };
 
