@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const enviroment = require("./enviroment");
+const { read: fileRead } = require("../lib/data");
 
 const app = {};
 
@@ -23,6 +24,26 @@ app.hasing = (password) => {
     return hash;
   }
   return false;
+};
+
+app.createToken = (length) => {
+  let token = "";
+  const allChar = "abcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < length; i += 1) {
+    const randNumber = Math.floor(Math.random() * 35);
+    token += allChar.at(randNumber);
+  }
+  return token;
+};
+
+app.tokenVerify = (phone, token, callback) => {
+  fileRead("tokens", token, (err1, data1) => {
+    if (!err1 && data1) {
+      const dataObj = app.parseJSON(data1);
+      if (dataObj.id === token && dataObj.phone === phone) callback(true);
+      else callback(false);
+    } else callback(false);
+  });
 };
 
 module.exports = app;

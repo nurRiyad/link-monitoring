@@ -4,7 +4,7 @@ const {
   update: fileUpdate,
   delete: fileDelete,
 } = require("../../lib/data");
-const { hasing, parseJSON } = require("../../helper/utility");
+const { hasing, parseJSON, tokenVerify } = require("../../helper/utility");
 
 // app scaffolding
 const handler = {};
@@ -24,14 +24,23 @@ handler.user = {};
 // get user data
 handler.user.get = (reqProperty, callback) => {
   let { phone } = reqProperty.reqQuery;
+  let { token } = reqProperty.reqHeader;
   phone = typeof phone === "string" && phone.length === 11 ? phone : false;
-  if (phone) {
-    fileRead("users", phone, (err1, data1) => {
-      if (!err1 && data1) {
-        const dataObj = parseJSON(data1);
-        if (dataObj.password) delete dataObj.password;
-        callback(200, dataObj);
-      } else callback(404, { Error: "Internal server error" });
+  token = typeof token === "string" && token.length === 20 ? token : false;
+
+  if (phone && token) {
+    tokenVerify(phone, token, (isValidToken) => {
+      if (isValidToken) {
+        fileRead("users", phone, (err1, data1) => {
+          if (!err1 && data1) {
+            const dataObj = parseJSON(data1);
+            if (dataObj.password) delete dataObj.password;
+            callback(200, dataObj);
+          } else callback(404, { Error: "Internal server error" });
+        });
+      } else {
+        callback(400, { Error: "Invalide auth token" });
+      }
     });
   } else {
     callback(400, { Error: "Internal server errors" });
@@ -92,6 +101,10 @@ handler.user.post = (reqProperty, callback) => {
 // update user data
 handler.user.put = (reqProperty, callback) => {
   const body = reqProperty.reqBody;
+
+  let { token } = reqProperty.reqHeader;
+  token = typeof token === "string" && token.length === 20 ? token : false;
+
   const fname =
     typeof body.firstName === "string" && body.firstName.trim().length > 0
       ? body.firstName
@@ -118,46 +131,57 @@ handler.user.put = (reqProperty, callback) => {
     body.password = password;
   }
 
-  if (fname || lname || address || password) {
-    fileRead("users", phone, (err1, data1) => {
-      if (!err1 && data1) {
-        const dataObj = parseJSON(data1);
-        if (fname) dataObj.firstName = fname;
-        if (lname) dataObj.lastName = lname;
-        if (address) dataObj.address = address;
-        if (password) dataObj.password = password;
+  if (fname || lname || address || (password && token)) {
+    tokenVerify(phone, token, (isValidToken) => {
+      if (isValidToken) {
+        fileRead("users", phone, (err1, data1) => {
+          if (!err1 && data1) {
+            const dataObj = parseJSON(data1);
+            if (fname) dataObj.firstName = fname;
+            if (lname) dataObj.lastName = lname;
+            if (address) dataObj.address = address;
+            if (password) dataObj.password = password;
 
-        fileUpdate("users", phone, dataObj, (err2, data2) => {
-          if (!err2 && data2) {
-            callback(200, {
-              firstName: fname,
-              lastName: lname,
-              address,
-              phone,
+            fileUpdate("users", phone, dataObj, (err2, data2) => {
+              if (!err2 && data2) {
+                callback(200, {
+                  firstName: fname,
+                  lastName: lname,
+                  address,
+                  phone,
+                });
+              } else {
+                callback(404, { Error: "Internal server error" });
+              }
             });
           } else {
-            callback(404, { Error: "Internal server error" });
+            callback(400, { Error: "Internal server error" });
           }
         });
-      } else {
-        callback(400, { Error: "Internal server error" });
-      }
+      } else callback(400, { Error: "Invalid Auth token" });
     });
-  }
+  } else callback(400, { Error: "Please send proper request" });
 };
 
 // delete existing data
 handler.user.delete = (reqProperty, callback) => {
   let { phone } = reqProperty.reqQuery;
+  let { token } = reqProperty.reqHeader;
   phone = typeof phone === "string" && phone.length === 11 ? phone : false;
-  if (phone) {
-    fileRead("users", phone, (err1, data1) => {
-      if (!err1 && data1) {
-        fileDelete("users", phone, (err2) => {
-          if (err2) callback(400, { Error: "Internal server error" });
-          else callback(200, { result: "seccessfully delete the file" });
+  token = typeof token === "string" && token.length === 20 ? token : false;
+
+  if (phone && token) {
+    tokenVerify(phone, token, (isValidToken) => {
+      if (isValidToken) {
+        fileRead("users", phone, (err1, data1) => {
+          if (!err1 && data1) {
+            fileDelete("users", phone, (err2) => {
+              if (err2) callback(400, { Error: "Internal server error" });
+              else callback(200, { result: "seccessfully delete the file" });
+            });
+          } else callback(400, { Error: "Internal server error" });
         });
-      } else callback(400, { Error: "Internal server error" });
+      } else callback(400, { Error: "Invalide auth token" });
     });
   } else {
     callback(400, { Error: "Internal error on server" });
