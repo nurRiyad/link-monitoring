@@ -1,1 +1,8 @@
-{"firstName":"Md. Al Asad","lastName":"Riyad","phone":"01730238191","address":"Dhaka","password":"e49126a0175682a700e3f78cb249b3cadbb10b3114f4476ba443005e1bea178c"}
+{
+  "firstName": "Md. Al Asad",
+  "lastName": "Riyad",
+  "phone": "01730238191",
+  "address": "Dhaka",
+  "password": "e49126a0175682a700e3f78cb249b3cadbb10b3114f4476ba443005e1bea178c",
+  "checks": ["x3bxcs8loixvg5rdzg", "yu6vepkl0w7kdy81zt", "imto8hiobm6drv7eki"]
+}

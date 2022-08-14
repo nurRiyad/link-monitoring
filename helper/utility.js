@@ -40,7 +40,12 @@ app.tokenVerify = (phone, token, callback) => {
   fileRead("tokens", token, (err1, data1) => {
     if (!err1 && data1) {
       const dataObj = app.parseJSON(data1);
-      if (dataObj.id === token && dataObj.phone === phone) callback(true);
+      if (
+        dataObj.id === token &&
+        dataObj.phone === phone &&
+        dataObj.expire > Date.now()
+      )
+        callback(true);
       else callback(false);
     } else callback(false);
   });
