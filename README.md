@@ -20,45 +20,93 @@ An API server that stores some URLs of authenticated users. Continuously monitor
       "password": "sdfsdfd"
     }
     ```
-- `/signin`
-  - Req Type: post
-  - Auth Type: Public
-  - Body
-  ```
-    {
-      "phone": "01730232345",
-      "password": "sdfs"
-    }
-  ```
-- `/signout`
-  - Req Type: get
-  - Auth Type: Private/token
+  - `/signin`
+    - Req Type: post
+    - Auth Type: Public
+    - Body
+    ```
+      {
+        "phone": "01730232345",
+        "password": "sdfs"
+      }
+    ```
+  - `/signout`
+    - Req Type: get
+    - Auth Type: Private/token
 
 <br>
 
 - **User Related**
 
   - `/user`
+
     - Req Type: get
     - Auth Type: private/token
     - Query: ?phone=5464
     - Body
 
-- `/user`
-  - Req Type: put
-  - Auth Type: Private/token
-  - Query: ?phone=5464
-  - Body
-  ```
+  - `/user`
+    - Req Type: put
+    - Auth Type: Private/token
+    - Query: ?phone=5464
+    - Body
+    ```
+      {
+        "firstName": "Md. Al Asad Nur ",
+        "lastName": "Riyad",
+        "phone": "01124538191",
+        "address": "dhaka",
+        "password": "sdfsd"
+      }
+    ```
+  - `/user`
+    - Req Type: delete
+    - Auth Type: Private/token
+    - Query: ?phone=5464
+
+<br>
+
+- **Check Related**
+
+  - `/check`
+
+    - Req Type: post
+    - Auth Type: private/token
+    - Body
+
+    ```
     {
-      "firstName": "Md. Al Asad Nur ",
-      "lastName": "Riyad",
-      "phone": "01124538191",
-      "address": "dhaka",
-      "password": "sdfsd"
+        "protocol": "http",
+        "method": "GET",
+        "url": "www.google.com",
+        "successcode": ["200","201"],
+        "timeout":3
     }
-  ```
-- `/user`
-  - Req Type: delete
-  - Auth Type: Private/token
-  - Query: ?phone=5464
+    ```
+
+  - `/check`
+    - Req Type: get
+    - Auth Type: Private/token
+    - Query: ?id=5464
+    - Body
+  - `/check`
+
+    - Req Type: put
+    - Auth Type: Private/token
+    - Body
+
+    ```
+    {
+        "id": "xj6zefdd0054mpz4rp",
+        "protocol": "http",
+        "method": "GET",
+        "url": "www.reddit.com",
+        "successcode": ["200","201","400"],
+        "timeout":3
+    }
+    ```
+
+  - `/check`
+    - Req Type: delete
+    - Auth Type: Private/token
+    - Query: ?id=5464
