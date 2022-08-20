@@ -21,32 +21,6 @@ handler.userHandler = (reqProperty, callback) => {
 
 handler.user = {};
 
-// get user data
-handler.user.get = (reqProperty, callback) => {
-  let { phone } = reqProperty.reqQuery;
-  let { token } = reqProperty.reqHeader;
-  phone = typeof phone === "string" && phone.length === 11 ? phone : false;
-  token = typeof token === "string" && token.length === 20 ? token : false;
-
-  if (phone && token) {
-    tokenVerify(phone, token, (isValidToken) => {
-      if (isValidToken) {
-        fileRead("users", phone, (err1, data1) => {
-          if (!err1 && data1) {
-            const dataObj = parseJSON(data1);
-            if (dataObj.password) delete dataObj.password;
-            callback(200, dataObj);
-          } else callback(404, { Error: "Internal server error" });
-        });
-      } else {
-        callback(400, { Error: "Invalide auth token" });
-      }
-    });
-  } else {
-    callback(400, { Error: "Internal server errors" });
-  }
-};
-
 // create new user
 handler.user.post = (reqProperty, callback) => {
   const body = reqProperty.reqBody;
@@ -98,6 +72,32 @@ handler.user.post = (reqProperty, callback) => {
   }
 };
 
+// get user data
+handler.user.get = (reqProperty, callback) => {
+  let { phone } = reqProperty.reqQuery;
+  let { token } = reqProperty.reqHeader;
+  phone = typeof phone === "string" && phone.length === 11 ? phone : false;
+  token = typeof token === "string" && token.length === 20 ? token : false;
+
+  if (phone && token) {
+    tokenVerify(phone, token, (isValidToken) => {
+      if (isValidToken) {
+        fileRead("users", phone, (err1, data1) => {
+          if (!err1 && data1) {
+            const dataObj = parseJSON(data1);
+            if (dataObj.password) delete dataObj.password;
+            callback(200, dataObj);
+          } else callback(404, { Error: "Internal server error" });
+        });
+      } else {
+        callback(400, { Error: "Invalide auth token" });
+      }
+    });
+  } else {
+    callback(400, { Error: "Internal server errors" });
+  }
+};
+
 // update user data
 handler.user.put = (reqProperty, callback) => {
   const body = reqProperty.reqBody;
@@ -131,7 +131,7 @@ handler.user.put = (reqProperty, callback) => {
     body.password = password;
   }
 
-  if (fname || lname || address || (password && token)) {
+  if ((fname || lname || address || password) && token && phone) {
     tokenVerify(phone, token, (isValidToken) => {
       if (isValidToken) {
         fileRead("users", phone, (err1, data1) => {

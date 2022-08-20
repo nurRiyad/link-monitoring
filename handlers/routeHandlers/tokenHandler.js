@@ -21,22 +21,6 @@ handler.tokenHandler = (reqProperty, callback) => {
 
 handler.token = {};
 
-// get token data
-handler.token.get = (reqProperty, callback) => {
-  let { id: token } = reqProperty.reqQuery;
-  token = typeof token === "string" && token.length === 20 ? token : false;
-  if (token) {
-    fileRead("tokens", token, (err1, data1) => {
-      if (!err1 && data1) {
-        const dataObj = parseJSON(data1);
-        callback(200, dataObj);
-      } else callback(404, { Error: "Internal server error" });
-    });
-  } else {
-    callback(400, { Error: "Internal server errors" });
-  }
-};
-
 // create new token
 handler.token.post = (reqProperty, callback) => {
   const body = reqProperty.reqBody;
@@ -76,6 +60,22 @@ handler.token.post = (reqProperty, callback) => {
     });
   } else {
     callback(400, { Error: "Please enter proper body for the request" });
+  }
+};
+
+// get token data
+handler.token.get = (reqProperty, callback) => {
+  let { id: token } = reqProperty.reqQuery;
+  token = typeof token === "string" && token.length === 20 ? token : false;
+  if (token) {
+    fileRead("tokens", token, (err1, data1) => {
+      if (!err1 && data1) {
+        const dataObj = parseJSON(data1);
+        callback(200, dataObj);
+      } else callback(404, { Error: "Internal server error" });
+    });
+  } else {
+    callback(400, { Error: "Internal server errors" });
   }
 };
 

@@ -1,0 +1,8 @@
+{
+  "id": "uebgco7wabme6n48s5",
+  "protocol": "http",
+  "method": "GET",
+  "url": "www.linode.com",
+  "timeout": 3,
+  "successcode": ["200", "201"]
+}
