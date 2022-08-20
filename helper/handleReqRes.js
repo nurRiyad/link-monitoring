@@ -1,10 +1,8 @@
 const url = require("url");
 const { StringDecoder } = require("string_decoder");
-const routes = require("../routes");
+const routes = require("../routes/routes");
 const { parseJSON } = require("./utility");
-const {
-  notFoundHandler,
-} = require("../handlers/routeHandlers/notFoundHandlers");
+const { notFoundHandler } = require("../routes/routeHandlers/notFoundHandlers");
 
 // App scaffolding
 const app = {};
