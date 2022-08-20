@@ -31,7 +31,7 @@ handler.signout.get = (reqProperty, callback) => {
               if (isValid) {
                 deleteToken(token, (err3, data3) => {
                   if (!err3 && data3) {
-                    callback(200, { Result: "Successfully deleted the error" });
+                    callback(200, { Result: "Successfully deleted the token" });
                   } else callback(400, { Error: "Internal server error" });
                 });
               } else callback(400, { Error: "Invalid token" });

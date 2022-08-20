@@ -11,7 +11,7 @@ app.parseJSON = (json) => {
     jsonObj = JSON.parse(json);
     return jsonObj;
   } catch (error) {
-    console.log("Cant parse the reqbody");
+    jsonObj = {};
   }
   return jsonObj;
 };
