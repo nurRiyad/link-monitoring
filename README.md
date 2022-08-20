@@ -7,7 +7,7 @@ An API server that stores some URLs of authenticated users. Continuously monitor
 ### API Documentation
 
 - **Auth Related**
-  - `signup`
+  - `/signup`
     - Req Type: post
     - Auth Type: public
     - Body
@@ -20,7 +20,7 @@ An API server that stores some URLs of authenticated users. Continuously monitor
       "password": "sdfsdfd"
     }
     ```
-- `ingnin`
+- `/signin`
   - Req Type: post
   - Auth Type: Public
   - Body
@@ -30,6 +30,35 @@ An API server that stores some URLs of authenticated users. Continuously monitor
       "password": "sdfs"
     }
   ```
-- `signout`
+- `/signout`
   - Req Type: get
   - Auth Type: Private/token
+
+<br>
+
+- **User Related**
+
+  - `/user`
+    - Req Type: get
+    - Auth Type: private/token
+    - Query: ?phone=5464
+    - Body
+
+- `/user`
+  - Req Type: put
+  - Auth Type: Private/token
+  - Query: ?phone=5464
+  - Body
+  ```
+    {
+      "firstName": "Md. Al Asad Nur ",
+      "lastName": "Riyad",
+      "phone": "01124538191",
+      "address": "dhaka",
+      "password": "sdfsd"
+    }
+  ```
+- `/user`
+  - Req Type: delete
+  - Auth Type: Private/token
+  - Query: ?phone=5464
