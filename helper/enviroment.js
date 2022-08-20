@@ -4,6 +4,11 @@ enviroment.staging = {
   port: 3000,
   envName: "staging",
   key: "riyad",
+  twilio: {
+    fromPhone: "+17179128176",
+    accountSid: "set your twilio sid",
+    authToken: "set your twilio auth",
+  },
 };
 
 enviroment.production = {
