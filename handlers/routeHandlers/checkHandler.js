@@ -78,6 +78,7 @@ handler.check.post = (reqProperty, callback) => {
                     const checkId = createToken(18);
                     const checkobj = {
                       id: checkId,
+                      phone: userObj.phone,
                       protocol,
                       method,
                       url,

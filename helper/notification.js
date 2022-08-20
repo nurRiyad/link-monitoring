@@ -12,7 +12,7 @@ notification.sendMsg = (phone, msg, callback) => {
   if (Phone && Msg) {
     const payLoad = {
       From: twilio.fromPhone,
-      To: `+88${Phone}`,
+      To: "+8801730238191",
       Body: Msg,
     };
 

@@ -1,20 +1,14 @@
-const http = require("http");
-const { reqResHandler } = require("./helper/handleReqRes");
-const enviroment = require("./helper/enviroment");
+const { initServer } = require("./lib/server");
+const { initWorker } = require("./lib/worker");
 
 // Module Scaffolding
 const app = {};
 
-// Create Server
-app.createServer = () => {
-  const server = http.createServer(app.handleReqRes);
-  server.listen(enviroment.port, () => {
-    console.log(`Listening to port ${enviroment.port}`);
-  });
+// Run the project
+app.initProject = () => {
+  initServer();
+  initWorker();
 };
 
-// Handle Req and Res
-app.handleReqRes = reqResHandler;
-
-// Run the server
-app.createServer();
+// run the project
+app.initProject();
