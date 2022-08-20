@@ -80,20 +80,19 @@ auth.updateToken = (reqProperty, callback) => {
 };
 
 // delete existing token
-auth.deleteToken = (reqProperty, callback) => {
-  let { id: token } = reqProperty.reqQuery;
+auth.deleteToken = (token, callback) => {
   token = typeof token === "string" && token.length === 20 ? token : false;
   if (token) {
     fileRead("tokens", token, (err1, data1) => {
       if (!err1 && data1) {
         fileDelete("tokens", token, (err2) => {
-          if (err2) callback(400, { Error: "Internal server error" });
-          else callback(200, { result: "seccessfully delete the token" });
+          if (err2) callback({ Error: "Internal error on server" }, "");
+          else callback("", { Result: "Token deleted successfully" });
         });
-      } else callback(400, { Error: "Internal server error" });
+      } else callback({ Error: "Internal error on server" }, "");
     });
   } else {
-    callback(400, { Error: "Internal error on server" });
+    callback({ Error: "Internal error on server" }, "");
   }
 };
 
