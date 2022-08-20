@@ -4,6 +4,7 @@ const { read: fileRead } = require("../lib/data");
 
 const app = {};
 
+// Parse a object from string
 app.parseJSON = (json) => {
   let jsonObj = {};
   try {
@@ -15,6 +16,7 @@ app.parseJSON = (json) => {
   return jsonObj;
 };
 
+// encript a string password
 app.hasing = (password) => {
   if (typeof password === "string" && password.length > 0) {
     const hash = crypto
@@ -26,6 +28,7 @@ app.hasing = (password) => {
   return false;
 };
 
+// create a random token on lenght size
 app.createToken = (length) => {
   let token = "";
   const allChar = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -36,6 +39,7 @@ app.createToken = (length) => {
   return token;
 };
 
+// varify a token is valid or not
 app.tokenVerify = (phone, token, callback) => {
   fileRead("tokens", token, (err1, data1) => {
     if (!err1 && data1) {

@@ -12,3 +12,6 @@ app.initProject = () => {
 
 // run the project
 app.initProject();
+
+// return app
+module.exports = app;
