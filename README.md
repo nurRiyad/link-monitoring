@@ -48,7 +48,6 @@ An API server that stores some URLs of authenticated users. Continuously monitor
   - `/user`
     - Req Type: put
     - Auth Type: Private/token
-    - Query: ?phone=5464
     - Body
     ```
       {
@@ -110,3 +109,10 @@ An API server that stores some URLs of authenticated users. Continuously monitor
     - Req Type: delete
     - Auth Type: Private/token
     - Query: ?id=5464
+
+## Next thing to do in this project
+
+[] Send token in cookie instead of Body
+[] When a user account deleted all its check should be auto deleted
+[] When a user is deleted all it's token shuld be auto deleted
+[] Auto cleanup expire auth token

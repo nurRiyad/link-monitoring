@@ -6,8 +6,8 @@ enviroment.staging = {
   key: "riyad",
   twilio: {
     fromPhone: "+17179128176",
-    accountSid: "ACe5c891c2f092ba8401e36299de6d9dc6",
-    authToken: "d5f54e254ad0a556438eac8dd86dd901",
+    accountSid: "Your twilio sid",
+    authToken: "Your twilio auth token",
   },
 };
 
