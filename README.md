@@ -4,6 +4,8 @@
 
 An API server that stores some URLs of authenticated users. Continuously monitor the URLs. If the URLs state change sends an SMS to the user.
 
+This project is build with raw nodejs, without using any other packages.My main goal for this project was to learn, how nodejs work with it's built in module like http, os, path, url and others
+
 ### API Documentation
 
 - **Auth Related**
@@ -112,7 +114,7 @@ An API server that stores some URLs of authenticated users. Continuously monitor
 
 ## Next thing to do in this project
 
-- [] Send token in cookie instead of Body
-- [] When a user account deleted all its check should be auto deleted
-- [] When a user is deleted all it's token shuld be auto deleted
-- [] Auto cleanup expire auth token
+<input type="checkbox" disabled /> works here too Send token in cookie instead of Body<br>
+<input type="checkbox" disabled /> works here tooWhen a user account deleted all its check should be auto deleted<br>
+<input type="checkbox" disabled /> works here tooWhen a user is deleted all it's token shuld be auto deleted<br>
+<input type="checkbox" disabled /> works here tooAuto cleanup expire auth token
