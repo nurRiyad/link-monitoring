@@ -117,5 +117,5 @@ This project is build with raw nodejs, without using any other packages.My main 
 ⬜ Send token in cookie instead of Body<br>
 ⬜ When a user account deleted all its check should be auto deleted<br>
 ⬜ When a user is deleted all it's token shuld be auto deleted<br>
-⬜ Auto cleanup expire auth token
+⬜ Auto cleanup expire auth token<br>
 ⬜ Use promice base api and esm
