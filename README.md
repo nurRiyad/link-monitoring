@@ -114,7 +114,7 @@ This project is build with raw nodejs, without using any other packages.My main 
 
 ## Next thing to do in this project
 
-[X] Send token in cookie instead of Body<br>
+[] Send token in cookie instead of Body<br>
 ⬜ When a user account deleted all its check should be auto deleted<br>
 ⬜ When a user is deleted all it's token shuld be auto deleted<br>
 ⬜ Auto cleanup expire auth token<br>
